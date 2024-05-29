@@ -12,8 +12,9 @@ public class ProductoDAOImpl implements ProductoDAO {
     @Override
     public void crearProducto(Articulos producto) {
         String sql = "INSERT INTO productos (codigo, descripcion, precioVenta, stock) VALUES (?, ?, ?, ?)";
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = ConexionBD.getConnection();
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, producto.getCodigo());
             pstmt.setString(2, producto.getDescripcion());
             pstmt.setDouble(3, producto.getPrecioVenta());
@@ -28,8 +29,9 @@ public class ProductoDAOImpl implements ProductoDAO {
     public Articulos obtenerProducto(String codigo) {
         String sql = "SELECT * FROM productos WHERE codigo = ?";
         Articulos producto = null;
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = ConexionBD.getConnection();
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, codigo);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -49,8 +51,9 @@ public class ProductoDAOImpl implements ProductoDAO {
     @Override
     public void actualizarProducto(Articulos producto) {
         String sql = "UPDATE productos SET descripcion = ?, precioVenta = ?, stock = ? WHERE codigo = ?";
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = ConexionBD.getConnection();
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, producto.getDescripcion());
             pstmt.setDouble(2, producto.getPrecioVenta());
             pstmt.setInt(3, producto.getStock());
@@ -64,8 +67,9 @@ public class ProductoDAOImpl implements ProductoDAO {
     @Override
     public void eliminarProducto(String codigo) {
         String sql = "DELETE FROM productos WHERE codigo = ?";
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = ConexionBD.getConnection();
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, codigo);
             pstmt.executeUpdate();
         } catch (SQLException e) {
